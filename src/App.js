@@ -8,6 +8,8 @@ import SigninScreen from './screens/SigninScreen';
 import { signout } from './actions/userActions';
 import RegisterScreen from './screens/RegisterScreen';
 import ShippingAddressScreen from './screens/ShippingAddressScreen';
+import PaymentMethodScreen from './screens/PaymentMethodScreen';
+import { signoutShippingAddress } from './actions/cartActions';
 
 function App() {
   const cart = useSelector(state => state.cart);
@@ -17,6 +19,7 @@ function App() {
   const reduxDispatch = useDispatch();
   const signoutHandler = () =>{
     reduxDispatch(signout());
+    reduxDispatch(signoutShippingAddress());
   }
 
   return (
@@ -38,7 +41,7 @@ function App() {
               <div className = "dropdown">
                 <Link to="#">{userInfo.name}<i className="fa fa-caret-down"></i></Link>
                 <ul className="dropdown-content">
-                  <Link to="#signout" onClick={signoutHandler}>Sign Out</Link>
+                  <Link to="#" onClick={signoutHandler}>Sign Out</Link>
                 </ul>
               </div>
             )
@@ -53,6 +56,7 @@ function App() {
         <Route path="/register" component={RegisterScreen} exact></Route>
         <Route path="/signin" component={SigninScreen} exact></Route>
         <Route path="/shipping" component={ShippingAddressScreen} exact></Route>
+        <Route path="/payment" component={PaymentMethodScreen} exact></Route>
         <Route path="/" component={HomeScreen} exact></Route>
        
         
