@@ -13,7 +13,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-
 /* Layout */
 
 .grid-container {
@@ -39,7 +38,6 @@ footer {
     background-color: #203040;
     color: #ffffff;
 }
-
 
 /* Common */
 
@@ -71,10 +69,7 @@ li {
     margin-top: 1rem;
 }
 
-input,
-select,
-textarea,
-button {
+input, select, textarea, button {
     padding: 1rem;
     border-radius: 0.5rem;
     border: 0.1rem #a4a4a4 solid;
@@ -89,10 +84,7 @@ button {
     cursor: pointer;
 }
 
-input:hover,
-select:hover,
-textarea:hover,
-button:hover {
+input:hover, select:hover, textarea:hover, button:hover {
     border: 0.1rem #404040 solid;
 }
 
@@ -103,7 +95,6 @@ button.primary {
 button.block {
     width: 100%;
 }
-
 
 /* Header */
 
@@ -154,7 +145,6 @@ a.brand {
     min-width: 30rem;
 }
 
-
 /* Image */
 
 img {
@@ -174,7 +164,6 @@ img.medium {
 img.large {
     width: 100%;
 }
-
 
 /* Card */
 
@@ -197,7 +186,6 @@ img.large {
     font-size: 2rem;
 }
 
-
 /* Rating */
 
 .rating span {
@@ -209,9 +197,10 @@ img.large {
     color: #404040;
 }
 
-
 /* Alert */
-
+.loading{
+    display: block !important;
+}
 .success {
     color: #20a020;
 }
@@ -236,7 +225,6 @@ img.large {
     background-color: #ffe0e0;
 }
 
-
 /* Form */
 
 .form {
@@ -252,5 +240,29 @@ img.large {
 
 .form label {
     margin: 1rem 0;
+    display: block;
+}
+
+/* Dropdown */
+
+.dropdown {
+    display: inline-block;
+    position: relative;
+}
+
+.dropdown-content {
+    position: absolute;
+    display: none;
+    right: 0;
+    min-width: 12rem;
+    padding: 1rem;
+    z-index: 1;
+    background-color: #203040;
+    margin: 0;
+    margin-top: 0.4rem;
+    border-radius: 0.5rem;
+}
+
+.dropdown:hover .dropdown-content {
     display: block;
 }
