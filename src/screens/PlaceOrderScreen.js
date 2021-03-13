@@ -1,22 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CheckOutSteps from '../components/CheckOutSteps'
-import {useDispatch, useSelector} from 'react-redux'
-import {Link} from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { createOrder } from '../actions/orderActions';
+import { ORDER_CREATE_RESET } from '../constants/orderConstants';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 export default function PlaceOrderScreen(props) {
     const cart = useSelector(state => state.cart);
-    if(!cart.paymentMethod) props.history.push('/payment');
-    const toPrice = (num)=>Number(num.toFixed(2));
-    cart.itemsPrice = toPrice(cart.cartItems.reduce((accumulator,current)=>accumulator+current.qty*current.price,0));
-    cart.shippingPrice = cart.itemsPrice<100? toPrice(0) : toPrice(15);
-     cart.taxPrice = toPrice(cart.itemsPrice * 0.15);
-     cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
+    if (!cart.paymentMethod) props.history.push('/payment');
+    const orderCreate = useSelector(state => state.orderCreate);
+    const { loading, success, error, order } = orderCreate;
+    const toPrice = (num) => Number(num.toFixed(2));
+    cart.itemsPrice = toPrice(cart.cartItems.reduce((accumulator, current) => accumulator + current.qty * current.price, 0));
+    cart.shippingPrice = cart.itemsPrice < 100 ? toPrice(0) : toPrice(15);
+    cart.taxPrice = toPrice(cart.itemsPrice * 0.15);
+    cart.totalPrice = cart.itemsPrice + cart.shippingPrice + cart.taxPrice;
     const reduxDispatch = useDispatch();
-    const placeOrderHandler =  (e)=>{
+    const placeOrderHandler = (e) => {
         e.preventDefault();
+        reduxDispatch(createOrder({ ...cart, orderItems: cart.cartItems }));
 
     }
-    
+    useEffect(() => {
+        if (success) props.history.push(`/details${order._id}`);
+        reduxDispatch({ type: ORDER_CREATE_RESET })
+
+    }, [success, reduxDispatch, order, props.history])
 
     return (
         <div>
@@ -29,9 +40,9 @@ export default function PlaceOrderScreen(props) {
                                 <h2>Shipping</h2>
                                 <p>
                                     <strong>Name:</strong> {cart.shippingAddress.fullName} <br />
-                                    <strong>Address: </strong> 
-                                        {cart.shippingAddress.address},
-                                        {cart.shippingAddress.city}, 
+                                    <strong>Address: </strong>
+                                    {cart.shippingAddress.address},
+                                        {cart.shippingAddress.city},
                                         {cart.shippingAddress.postalCode},
                                         {cart.shippingAddress.country}
                                 </p>
@@ -111,6 +122,8 @@ export default function PlaceOrderScreen(props) {
                                     Place Order
                                 </button>
                             </li>
+                            {loading && <LoadingBox></LoadingBox>}
+                            {error && <MessageBox variant="danger">{error}</MessageBox>}
                         </ul>
                     </div>
                 </div>
